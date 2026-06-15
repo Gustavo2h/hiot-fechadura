@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    software_lib::run()
+    controle_fechadura_lib::run()
 }

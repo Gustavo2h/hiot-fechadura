@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "397740955B0CA73945D789B2"
-               BuildableName = "software.app"
-               BlueprintName = "software_iOS"
-               ReferencedContainer = "container:software.xcodeproj">
+               BlueprintIdentifier = "0953A349136B2A35396BD474"
+               BuildableName = "Controle Fechadura.app"
+               BlueprintName = "controle_fechadura_iOS"
+               ReferencedContainer = "container:controle_fechadura.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -30,10 +30,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "397740955B0CA73945D789B2"
-            BuildableName = "software.app"
-            BlueprintName = "software_iOS"
-            ReferencedContainer = "container:software.xcodeproj">
+            BlueprintIdentifier = "0953A349136B2A35396BD474"
+            BuildableName = "Controle Fechadura.app"
+            BlueprintName = "controle_fechadura_iOS"
+            ReferencedContainer = "container:controle_fechadura.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <EnvironmentVariables>
@@ -65,10 +65,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "397740955B0CA73945D789B2"
-            BuildableName = "software.app"
-            BlueprintName = "software_iOS"
-            ReferencedContainer = "container:software.xcodeproj">
+            BlueprintIdentifier = "0953A349136B2A35396BD474"
+            BuildableName = "Controle Fechadura.app"
+            BlueprintName = "controle_fechadura_iOS"
+            ReferencedContainer = "container:controle_fechadura.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -94,10 +94,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "397740955B0CA73945D789B2"
-            BuildableName = "software.app"
-            BlueprintName = "software_iOS"
-            ReferencedContainer = "container:software.xcodeproj">
+            BlueprintIdentifier = "0953A349136B2A35396BD474"
+            BuildableName = "Controle Fechadura.app"
+            BlueprintName = "controle_fechadura_iOS"
+            ReferencedContainer = "container:controle_fechadura.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>

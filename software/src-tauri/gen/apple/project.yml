@@ -1,4 +1,4 @@
-name: software
+name: controle_fechadura
 options:
   bundleIdPrefix: tech.edrf.fechadura
   deploymentTarget:
@@ -10,7 +10,7 @@ configs:
 settingGroups:
   app:
     base:
-      PRODUCT_NAME: software
+      PRODUCT_NAME: Controle Fechadura
       PRODUCT_BUNDLE_IDENTIFIER: tech.edrf.fechadura
 targetTemplates:
   app:
@@ -24,20 +24,20 @@ targetTemplates:
     settings:
       groups: [app]
 targets:
-  software_iOS:
+  controle_fechadura_iOS:
     type: application
     platform: iOS
     sources:
       - path: Sources
       - path: Assets.xcassets
       - path: Externals
-      - path: software_iOS
+      - path: controle_fechadura_iOS
       - path: assets
         buildPhase: resources
         type: folder
       - path: LaunchScreen.storyboard
     info:
-      path: software_iOS/Info.plist
+      path: controle_fechadura_iOS/Info.plist
       properties:
         LSRequiresIPhoneOS: true
         UILaunchStoryboardName: LaunchScreen
@@ -54,7 +54,7 @@ targets:
         CFBundleShortVersionString: 0.1.0
         CFBundleVersion: "0.1.0"
     entitlements:
-      path: software_iOS/software_iOS.entitlements
+      path: controle_fechadura_iOS/controle_fechadura_iOS.entitlements
     scheme:
       environmentVariables:
         RUST_BACKTRACE: full

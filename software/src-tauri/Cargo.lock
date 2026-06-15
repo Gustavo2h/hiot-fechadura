@@ -485,6 +485,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "controle_fechadura"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-nfc",
+ "tauri-plugin-opener",
+]
+
+[[package]]
 name = "cookie"
 version = "0.18.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3118,18 +3130,6 @@ dependencies = [
  "wasm-bindgen",
  "web-sys",
  "windows-sys 0.61.2",
-]
-
-[[package]]
-name = "software"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-nfc",
- "tauri-plugin-opener",
 ]
 
 [[package]]

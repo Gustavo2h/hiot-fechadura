@@ -1,13 +1,13 @@
 # Uncomment the next line to define a global platform for your project
 
-target 'software_iOS' do
+target 'controle_fechadura_iOS' do
 platform :ios, '14.0'
-  # Pods for software_iOS
+  # Pods for controle_fechadura_iOS
 end
 
-target 'software_macOS' do
+target 'controle_fechadura_macOS' do
 platform :osx, '11.0'
-  # Pods for software_macOS
+  # Pods for controle_fechadura_macOS
 end
 
 # Delete the deployment target for iOS and macOS, causing it to be inherited from the Podfile
