@@ -42,6 +42,9 @@ targets:
         LSRequiresIPhoneOS: true
         UILaunchStoryboardName: LaunchScreen
         UIRequiredDeviceCapabilities: [arm64, metal]
+        NFCReaderUsageDescription: Usar NFC para obter informações de tags e modificar controles de acesso
+        com.apple.developer.nfc.readersession.iso7816.select-identifiers:
+          - F0436F696E6B697465434152447631
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
