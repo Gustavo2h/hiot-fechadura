@@ -1,34 +1,112 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="styles.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tauri App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Controle Fechadura</title>
     <script type="module" src="/main.js" defer></script>
   </head>
 
   <body>
-    <main class="container">
-      <h1>RFID Reader</h1>
+    <main class="app-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Controle de acesso</p>
+          <h1 id="screen-title">Fechaduras</h1>
+        </div>
+        <button id="refresh-button" class="icon-button" type="button" aria-label="Atualizar">Atualizar</button>
+      </header>
 
-      <div class="row">
-        <img src="/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
-      </div>
+      <section id="notice" class="notice" aria-live="polite">
+        <span id="notice-dot" class="notice-dot"></span>
+        <span id="notice-message">Abrindo o painel...</span>
+      </section>
 
-      <p>Tap the button below and hold your tag near the device.</p>
+      <section id="locks-tab" class="tab-panel active" data-tab-panel="locks">
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Fechaduras</p>
+              <h2>Escolha uma porta</h2>
+            </div>
+            <span id="lock-count" class="count-pill">0</span>
+          </div>
+          <div id="locks-list" class="item-list" aria-live="polite"></div>
+        </section>
 
-      <div class="row">
-        <button id="scan-button">Scan RFID Tag</button>
-      </div>
+        <section id="lock-detail" class="panel detail-panel" aria-live="polite">
+          <div class="detail-empty">
+            <p class="eyebrow">Detalhes</p>
+            <h2>Selecione uma fechadura</h2>
+          </div>
+        </section>
+      </section>
 
-      <div id="result-area" class="result-hidden">
-        <h3>Tag Detected!</h3>
-        <p><strong>ID:</strong> <span id="tag-id"></span></p>
-        <p><strong>Type:</strong> <span id="tag-kind"></span></p>
-      </div>
+      <section id="users-tab" class="tab-panel" data-tab-panel="users" hidden>
+        <form id="user-form" class="panel form-panel" autocomplete="off">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Novo usuário</p>
+              <h2>Cadastro com tag NFC</h2>
+            </div>
+          </div>
 
-      <p id="error-msg" class="error"></p>
+          <label for="user-name">Nome</label>
+          <input id="user-name" name="name" type="text" placeholder="Ex.: Ana Souza" required />
+
+          <label for="nfc-id">Tag NFC</label>
+          <div class="inline-field">
+            <input
+              id="nfc-id"
+              name="nfc"
+              type="text"
+              placeholder="Ex.: 04:A1:B2:C3"
+              autocapitalize="characters"
+              required
+            />
+            <button id="scan-button" class="secondary-button" type="button">Ler</button>
+          </div>
+
+          <button id="save-user-button" class="primary-button" type="submit">Salvar usuário</button>
+        </form>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Usuários</p>
+              <h2>Cadastrados</h2>
+            </div>
+            <span id="user-count" class="count-pill">0</span>
+          </div>
+          <div id="users-list" class="item-list" aria-live="polite"></div>
+        </section>
+      </section>
+
+      <section id="activity-tab" class="tab-panel" data-tab-panel="activity" hidden>
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Atividade</p>
+              <h2 id="history-title">Histórico</h2>
+            </div>
+            <span id="history-count" class="count-pill">0</span>
+          </div>
+          <div id="history-list" class="item-list history-list" aria-live="polite"></div>
+        </section>
+      </section>
     </main>
+
+    <nav class="bottom-tabs" aria-label="Navegação principal">
+      <button class="tab-button active" type="button" data-tab="locks" aria-controls="locks-tab" aria-selected="true">
+        <span>Fechaduras</span>
+      </button>
+      <button class="tab-button" type="button" data-tab="users" aria-controls="users-tab" aria-selected="false">
+        <span>Usuários</span>
+      </button>
+      <button class="tab-button" type="button" data-tab="activity" aria-controls="activity-tab" aria-selected="false">
+        <span>Atividade</span>
+      </button>
+    </nav>
   </body>
 </html>

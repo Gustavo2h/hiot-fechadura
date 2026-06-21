@@ -269,6 +269,7 @@
 					"\".\"",
 				);
 				INFOPLIST_FILE = controle_fechadura_iOS/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Controle Fechadura";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -433,6 +434,7 @@
 					"\".\"",
 				);
 				INFOPLIST_FILE = controle_fechadura_iOS/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Controle Fechadura";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
