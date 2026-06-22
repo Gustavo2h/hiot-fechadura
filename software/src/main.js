@@ -18,6 +18,7 @@ const screenTitles = {
 };
 
 // API helpers
+// Envia uma requisição HTTP ao Node-RED
 async function nodeRed(path, options = {}) {
   if (!tauriCore) {
     throw new Error("Tauri indisponível.");
@@ -30,6 +31,7 @@ async function nodeRed(path, options = {}) {
   });
 }
 
+// Atalhos para cada endpoint do Node-RED usado pelo app.
 const api = {
   listLocks: () => nodeRed("/locks"),
   getLock: (id) => nodeRed(`/locks/${encodeURIComponent(id)}`),
@@ -45,10 +47,12 @@ const api = {
 };
 
 // Data helpers
+// Padroniza o código da tag NFC
 function normalizeNfc(value = "") {
   return value.trim().toUpperCase();
 }
 
+// Extrai a lista de registros da resposta do Node-RED
 function unwrapRows(data) {
   const source = data?.payload ?? data?.rows ?? data?.data ?? data?.result ?? data;
 
@@ -63,52 +67,64 @@ function unwrapRows(data) {
   return [];
 }
 
+// Descobre o ID de um registro
 function rowId(row) {
   return row?.id ?? row?._id ?? row?.id_fechadura ?? row?.lockId;
 }
 
+// Descobre o nome/descrição de um registro
 function rowName(row, fallback) {
   return row?.nome || row?.name || row?.descricao || row?.description || fallback;
 }
 
+// Retorna a localização da fechadura
 function lockLocation(lock) {
   return lock?.localizacao || lock?.location || "Sem localização";
 }
 
+// Retorna a tag NFC de um usuário
 function userNfc(user) {
   return normalizeNfc(user?.id_nfc || user?.nfc || user?.nfc_id || user?.tag || user?.tag_id || "");
 }
 
+// Descobre o ID de uma permissão
 function permissionId(permission) {
   return permission?.id ?? permission?.permission_id ?? permission?.id_permissao;
 }
 
+// Retorna a tag NFC ligada a uma permissão
 function permissionNfc(permission) {
   return normalizeNfc(permission?.id_nfc || permission?.nfc || permission?.nfc_id || "");
 }
 
+// Retorna a tag NFC registrada em um evento do histórico.
 function historyNfc(event) {
   return normalizeNfc(
     event?.id_nfc_escaneado || event?.id_nfc || event?.nfc || event?.nfc_id || event?.tag || event?.tag_id || "",
   );
 }
 
+// Retorna o tipo do evento
 function historyEventType(event) {
   return String(event?.tipo_evento || event?.event_type || event?.type || "desconhecido").toLowerCase();
 }
 
+// Retorna a data/hora em que o evento aconteceu.
 function historyDate(event) {
   return event?.data_ocorrencia || event?.created_at || event?.criado_em || event?.timestamp || event?.date || "";
 }
 
+// Procura, entre as fechaduras já carregadas, a que tem o ID informado
 function findLock(id) {
   return state.locks.find((lock) => String(rowId(lock)) === String(id)) || null;
 }
 
+// Procura um usuário pela tag NFC
 function findUserByNfc(nfc) {
   return state.users.find((user) => userNfc(user) === normalizeNfc(nfc));
 }
 
+// Converte uma data em texto
 function formatDate(value) {
   if (!value) {
     return "Não informado";
@@ -125,6 +141,7 @@ function formatDate(value) {
   }).format(date);
 }
 
+// Mensagens de erro
 function friendlyError(error, context = "action") {
   const message = String(error?.message || error || "");
   const lower = message.toLowerCase();
@@ -165,11 +182,13 @@ function friendlyError(error, context = "action") {
 }
 
 // UI helpers
+// Mostra uma mensagem de status
 function setNotice(message, type = "idle") {
   elements.noticeMessage.textContent = message;
   elements.noticeDot.dataset.status = type;
 }
 
+// Liga/desliga o estado "ocupado"
 function setBusy(button, busy, label = "Aguarde...") {
   if (!button) {
     return;
@@ -179,6 +198,7 @@ function setBusy(button, busy, label = "Aguarde...") {
   button.textContent = busy ? label : button.dataset.label;
 }
 
+// Cria um parágrafo de "lista vazia"
 function emptyState(text) {
   const paragraph = document.createElement("p");
   paragraph.className = "empty-state";
@@ -186,11 +206,13 @@ function emptyState(text) {
   return paragraph;
 }
 
+// Limpa um container
 function setContainerMessage(container, text) {
   container.innerHTML = "";
   container.append(emptyState(text));
 }
 
+// Cria um botão
 function createButton(text, className, onClick) {
   const button = document.createElement("button");
   button.type = "button";
@@ -201,6 +223,7 @@ function createButton(text, className, onClick) {
   return button;
 }
 
+// Adiciona um par "rótulo: valor" numa lista
 function appendMeta(parent, label, value) {
   const term = document.createElement("dt");
   const description = document.createElement("dd");
@@ -209,6 +232,7 @@ function appendMeta(parent, label, value) {
   parent.append(term, description);
 }
 
+// Cria uma linha de lista com título, detalhe e um botão de ação
 function createRow(titleText, detailText, action) {
   const item = document.createElement("article");
   item.className = "row-item";
@@ -229,6 +253,7 @@ function createRow(titleText, detailText, action) {
   return item;
 }
 
+// Troca a aba ativa e atualiza a tela
 function switchTab(tab) {
   state.activeTab = tab;
   elements.screenTitle.textContent = screenTitles[tab];
@@ -253,6 +278,7 @@ function switchTab(tab) {
 }
 
 // Renderers
+// Redesenha todas as áreas da tela
 function renderAll() {
   renderLocks();
   renderUsers();
@@ -260,6 +286,7 @@ function renderAll() {
   renderHistory();
 }
 
+// Desenha a lista de fechaduras
 function renderLocks() {
   elements.lockCount.textContent = String(state.locks.length);
   elements.locksList.innerHTML = "";
@@ -292,6 +319,7 @@ function renderLocks() {
   });
 }
 
+// Desenha a lista de usuários cadastrados
 function renderUsers() {
   elements.userCount.textContent = String(state.users.length);
   elements.usersList.innerHTML = "";
@@ -311,6 +339,7 @@ function renderUsers() {
   });
 }
 
+// Monta o painel de detalhes da fechadura selecionada
 function renderLockDetail() {
   elements.lockDetail.innerHTML = "";
 
@@ -388,6 +417,7 @@ function renderLockDetail() {
   elements.lockDetail.append(header, actions, meta, permissions);
 }
 
+// Desenha a lista de usuários que têm permissão na fechadura selecionada
 function renderPermissionList(parent) {
   parent.innerHTML = "";
 
@@ -405,6 +435,7 @@ function renderPermissionList(parent) {
   });
 }
 
+// Preenche o seletor com os usuários que ainda não têm permissão nessa fechadura
 function fillAvailableUsers(select) {
   const permissionNfcs = new Set(state.selectedPermissions.map(permissionNfc));
   const availableUsers = state.users.filter((user) => {
@@ -428,6 +459,7 @@ function fillAvailableUsers(select) {
   select.disabled = availableUsers.length === 0;
 }
 
+// Desenha o histórico de eventos da fechadura selecionada
 function renderHistory() {
   const lock = state.selectedLock || findLock(state.selectedLockId);
   elements.historyTitle.textContent = lock ? rowName(lock, "Histórico") : "Histórico";
@@ -469,6 +501,7 @@ function renderHistory() {
 }
 
 // Actions
+// Busca fechaduras e usuários no Node-RED e atualiza a tela
 async function loadData({ quiet = false } = {}) {
   setBusy(elements.refreshButton, true, "...");
   if (!quiet) {
@@ -513,6 +546,7 @@ async function loadData({ quiet = false } = {}) {
   }
 }
 
+// Limpa a fechadura selecionada e os dados ligados a ela
 function clearSelectedLock() {
   state.selectedLockId = null;
   state.selectedLock = null;
@@ -520,6 +554,7 @@ function clearSelectedLock() {
   state.selectedHistory = [];
 }
 
+// Seleciona uma fechadura e carrega seus detalhes
 async function selectLock(lockId) {
   state.selectedLockId = lockId;
   state.selectedLock = findLock(lockId);
@@ -531,6 +566,7 @@ async function selectLock(lockId) {
   await loadLockData(lockId);
 }
 
+// Carrega detalhes, permissões e histórico de uma fechadura
 async function loadLockData(lockId, { quiet = false } = {}) {
   if (!quiet) {
     setNotice("Carregando fechadura...", "loading");
@@ -570,6 +606,7 @@ async function loadLockData(lockId, { quiet = false } = {}) {
   }
 }
 
+// Recarrega apenas o histórico de eventos de uma fechadura
 async function loadHistory(lockId, { quiet = false } = {}) {
   if (!quiet) {
     setNotice("Atualizando atividade...", "loading");
@@ -592,6 +629,7 @@ async function loadHistory(lockId, { quiet = false } = {}) {
   }
 }
 
+// Lê uma tag NFC pelo celular e preenche o campo do formulário
 async function scanNfc() {
   if (!tauriCore) {
     setNotice("Abra o app no celular para usar a leitura NFC.", "error");
@@ -614,6 +652,7 @@ async function scanNfc() {
   }
 }
 
+// Cadastra um novo usuário (nome + tag NFC) no banco via Node-RED
 async function createUser(event) {
   event.preventDefault();
 
@@ -641,6 +680,7 @@ async function createUser(event) {
   }
 }
 
+// Dá a um usuário permissão de acesso à fechadura selecionada
 async function assignPermission(event) {
   event.preventDefault();
 
@@ -671,6 +711,7 @@ async function assignPermission(event) {
   }
 }
 
+// Remove a permissão de acesso de um usuário a uma fechadura
 async function deletePermission(permission) {
   const id = permissionId(permission) ?? state.selectedLockId;
   const nfc = permissionNfc(permission);
@@ -691,6 +732,7 @@ async function deletePermission(permission) {
   }
 }
 
+// Exclui um usuário do sistema
 async function deleteUser(user) {
   const id = rowId(user);
   const name = rowName(user, "este usuário");
@@ -711,6 +753,7 @@ async function deleteUser(user) {
   }
 }
 
+// Envia o comando de abrir ou fechar a fechadura selecionada
 async function controlLock(action, button) {
   if (!state.selectedLockId) {
     setNotice("Selecione uma fechadura primeiro.", "error");
@@ -742,6 +785,7 @@ async function controlLock(action, button) {
 }
 
 // Boot
+// Guarda as referências aos elementos da tela
 function bindElements() {
   elements.screenTitle = document.querySelector("#screen-title");
   elements.noticeDot = document.querySelector("#notice-dot");
@@ -768,6 +812,7 @@ function bindElements() {
   });
 }
 
+// Liga os eventos de clique/envio aos botões e formulários
 function bindEvents() {
   elements.refreshButton.addEventListener("click", () => loadData());
   elements.scanButton.addEventListener("click", scanNfc);
@@ -777,6 +822,7 @@ function bindEvents() {
   });
 }
 
+// Inicializa o app assim que a página termina de carregar
 window.addEventListener("DOMContentLoaded", () => {
   bindElements();
   bindEvents();

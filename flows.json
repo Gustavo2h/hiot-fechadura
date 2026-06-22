@@ -1,0 +1,1618 @@
+[
+    {
+        "id": "4f2a185847498669",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/locks",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 80,
+        "y": 100,
+        "wires": [
+            [
+                "9b5dcddcd73341f3"
+            ]
+        ]
+    },
+    {
+        "id": "be25feb654435848",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/locks/:id",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 140,
+        "wires": [
+            [
+                "7c95cfb727bd8faf"
+            ]
+        ]
+    },
+    {
+        "id": "726da22a1df34037",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/users",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 80,
+        "y": 520,
+        "wires": [
+            [
+                "1c43dce3ca2adf37"
+            ]
+        ]
+    },
+    {
+        "id": "fab544f16f365456",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/users/:id",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 600,
+        "wires": [
+            [
+                "fadf2c0732353ff7"
+            ]
+        ]
+    },
+    {
+        "id": "68ae10f1f290a1f7",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/users",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 560,
+        "wires": [
+            [
+                "85b825245e7d565b"
+            ]
+        ]
+    },
+    {
+        "id": "da9b40d6c330a140",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/locks/:id/toggle",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 180,
+        "wires": [
+            [
+                "3cd7f3e01e9c6d10"
+            ]
+        ]
+    },
+    {
+        "id": "efbeeba79ffdd61b",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/locks/:id/history",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 220,
+        "wires": [
+            [
+                "ca7b3f1969eb9e64"
+            ]
+        ]
+    },
+    {
+        "id": "2127598768aaa742",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/users/:id",
+        "method": "delete",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 680,
+        "wires": [
+            [
+                "f874167c7c367d80"
+            ]
+        ]
+    },
+    {
+        "id": "54b247dcef0b363b",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/users/:id",
+        "method": "patch",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 640,
+        "wires": [
+            [
+                "08d2418922947e73"
+            ]
+        ]
+    },
+    {
+        "id": "84317e679b66e031",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 400,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "fed8e408a85e3282",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 560,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "fadf2c0732353ff7",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "SELECT * FROM usuarios WHERE id_nfc = \"{{req.params.id}}\";",
+        "output": "str",
+        "x": 240,
+        "y": 600,
+        "wires": [
+            [
+                "a1315a62d1a041f6"
+            ]
+        ]
+    },
+    {
+        "id": "85b825245e7d565b",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "INSERT INTO usuarios (nome, id_nfc) VALUES (\"{{payload.nome}}\", \"{{payload.id_nfc}}\")",
+        "output": "str",
+        "x": 240,
+        "y": 560,
+        "wires": [
+            [
+                "c81dd23c8d635238"
+            ]
+        ]
+    },
+    {
+        "id": "3de6c545bcc99269",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 580,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "08d2418922947e73",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "SELECT * FROM usuarios WHERE id = \"{{req.params.id}}\";",
+        "output": "str",
+        "x": 260,
+        "y": 640,
+        "wires": [
+            [
+                "bd944f6571bafbac"
+            ]
+        ]
+    },
+    {
+        "id": "e102aa0dbbf72b38",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 600,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "f874167c7c367d80",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "DELETE FROM usuarios WHERE id = \"{{req.params.id}}\";",
+        "output": "str",
+        "x": 260,
+        "y": 680,
+        "wires": [
+            [
+                "02370ed220be8611"
+            ]
+        ]
+    },
+    {
+        "id": "0861db137c3abfe4",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 580,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "ac61d3984d454321",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 420,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "7c95cfb727bd8faf",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "req",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "SELECT * FROM fechaduras WHERE id = \"{{req.params.id}}\";",
+        "output": "str",
+        "x": 240,
+        "y": 140,
+        "wires": [
+            [
+                "8e7527bd75035ccf"
+            ]
+        ]
+    },
+    {
+        "id": "8e7527bd75035ccf",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "req",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 140,
+        "wires": [
+            [
+                "85a27f0d8f6d39ce"
+            ]
+        ]
+    },
+    {
+        "id": "95d0833fbceb85b1",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 760,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "df9ff4e57a7062e1",
+        "type": "inject",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 90,
+        "y": 20,
+        "wires": [
+            [
+                "e4781884b83e1b29"
+            ]
+        ]
+    },
+    {
+        "id": "3cd7f3e01e9c6d10",
+        "type": "mqtt out",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ca4af054d26f0d38",
+        "x": 290,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "21d21d5285c45b58",
+        "type": "mqtt in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "topic": "fechadura/+/uid",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "ca4af054d26f0d38",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 980,
+        "y": 80,
+        "wires": [
+            [
+                "ac95e94d670d46d9"
+            ]
+        ]
+    },
+    {
+        "id": "24a63e3c7f09e834",
+        "type": "mqtt in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "topic": "fechadura/+/porta",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "ca4af054d26f0d38",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 990,
+        "y": 180,
+        "wires": [
+            [
+                "06d0982ec6a172ce"
+            ]
+        ]
+    },
+    {
+        "id": "1c7ae16b210613d8",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "SELECT id FROM permissoes_fechadura WHERE id_fechadura = {{ lockId }} AND id_nfc = '{{ payload }}';",
+        "output": "str",
+        "x": 1280,
+        "y": 80,
+        "wires": [
+            [
+                "a4f5d818725935c8"
+            ]
+        ]
+    },
+    {
+        "id": "d3ec1ef9c1bbbd95",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/permissions/:id",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 260,
+        "wires": [
+            [
+                "53bb855932d715c2"
+            ]
+        ]
+    },
+    {
+        "id": "fc7d67c2915a6e1a",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/permissions/:id",
+        "method": "delete",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 300,
+        "wires": [
+            [
+                "95e128e543dc41a0"
+            ]
+        ]
+    },
+    {
+        "id": "79acfd1b2beca70e",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 640,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "53bb855932d715c2",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "SELECT * FROM permissoes_fechadura where id_fechadura = {{ req.params.id }};",
+        "output": "str",
+        "x": 300,
+        "y": 260,
+        "wires": [
+            [
+                "1e9e2a65edcf9002"
+            ]
+        ]
+    },
+    {
+        "id": "95e128e543dc41a0",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "DELETE FROM permissoes_fechadura WHERE id_fechadura = \"{{ req.params.id }}\"",
+        "output": "str",
+        "x": 300,
+        "y": 300,
+        "wires": [
+            [
+                "aac78758ab2bee13"
+            ]
+        ]
+    },
+    {
+        "id": "564315e5a465b70d",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 640,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e4672f4e01ccb021",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/permissions/:id/:nfc",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 340,
+        "wires": [
+            [
+                "1ae7af0e57858981"
+            ]
+        ]
+    },
+    {
+        "id": "1ae7af0e57858981",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "SELECT * FROM permissoes_fechadura where id_fechadura = \"{{ req.params.id }}\" AND id_nfc = \"{{ req.params.nfc }}\";",
+        "output": "str",
+        "x": 320,
+        "y": 340,
+        "wires": [
+            [
+                "e80115e696dfef18"
+            ]
+        ]
+    },
+    {
+        "id": "c00696ad1b591d86",
+        "type": "switch",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            },
+            {
+                "t": "null"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 670,
+        "y": 340,
+        "wires": [
+            [
+                "ea0674f2f3c75bcd"
+            ],
+            [
+                "573970e726ad373d"
+            ]
+        ]
+    },
+    {
+        "id": "7915f2a935de5981",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 920,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "ea0674f2f3c75bcd",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 790,
+        "y": 320,
+        "wires": [
+            [
+                "7915f2a935de5981"
+            ]
+        ]
+    },
+    {
+        "id": "573970e726ad373d",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 790,
+        "y": 360,
+        "wires": [
+            [
+                "7915f2a935de5981"
+            ]
+        ]
+    },
+    {
+        "id": "3ce7d1650ceae83c",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/permissions/:id",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 380,
+        "wires": [
+            [
+                "0637c7e8c744b872"
+            ]
+        ]
+    },
+    {
+        "id": "0637c7e8c744b872",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "INSERT INTO permissoes_fechadura (id_fechadura, id_nfc) VALUES (\"{{ req.params.id }}\", \"{{ payload.id_nfc }}\");",
+        "output": "str",
+        "x": 300,
+        "y": 380,
+        "wires": [
+            [
+                "a8f79ba86bd2df5a"
+            ]
+        ]
+    },
+    {
+        "id": "ac95e94d670d46d9",
+        "type": "function",
+        "z": "e1ab2250d76780ce",
+        "name": "function 1",
+        "func": "const parts = msg.topic.split(\"/\");\n\nif (parts.length < 3) {\n  node.error(\"Invalid topic: \" + msg.topic, msg);\n  return null;\n}\n\nmsg.lockId = parts[1];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 80,
+        "wires": [
+            [
+                "1c7ae16b210613d8"
+            ]
+        ]
+    },
+    {
+        "id": "dee7a6ea1d6d39a4",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "false",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1730,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6a36a8ab3e3f36b9",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "true",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1730,
+        "y": 60,
+        "wires": [
+            [
+                "57f80606f2163c82"
+            ]
+        ]
+    },
+    {
+        "id": "d11fd4f8d7b39401",
+        "type": "switch",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            },
+            {
+                "t": "null"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1610,
+        "y": 80,
+        "wires": [
+            [
+                "6a36a8ab3e3f36b9",
+                "00b30b46d71d411f"
+            ],
+            [
+                "dee7a6ea1d6d39a4"
+            ]
+        ]
+    },
+    {
+        "id": "6df24bdf4577f0f2",
+        "type": "mqtt out",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "topic": "fechadura/cmd",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ca4af054d26f0d38",
+        "x": 2160,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "57f80606f2163c82",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "fechadura/{{ lockId }}/cmd",
+        "output": "str",
+        "x": 1860,
+        "y": 80,
+        "wires": [
+            [
+                "50038f0ccebc4402"
+            ]
+        ]
+    },
+    {
+        "id": "50038f0ccebc4402",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "open",
+        "output": "str",
+        "x": 2000,
+        "y": 80,
+        "wires": [
+            [
+                "6df24bdf4577f0f2"
+            ]
+        ]
+    },
+    {
+        "id": "1c43dce3ca2adf37",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "fixed",
+        "sql": "SELECT * FROM usuarios;",
+        "name": "Listar Usuarios",
+        "x": 240,
+        "y": 520,
+        "wires": [
+            [
+                "84317e679b66e031"
+            ]
+        ]
+    },
+    {
+        "id": "c81dd23c8d635238",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Adicionar Usuario",
+        "x": 410,
+        "y": 560,
+        "wires": [
+            [
+                "3de6c545bcc99269"
+            ]
+        ]
+    },
+    {
+        "id": "a1315a62d1a041f6",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM usuarios WHERE id_nfc = ;",
+        "name": "Obter Usuario",
+        "x": 400,
+        "y": 600,
+        "wires": [
+            [
+                "fed8e408a85e3282"
+            ]
+        ]
+    },
+    {
+        "id": "bd944f6571bafbac",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM usuarios WHERE id_nfc = ;",
+        "name": "Atualizar Usuario",
+        "x": 430,
+        "y": 640,
+        "wires": [
+            [
+                "e102aa0dbbf72b38"
+            ]
+        ]
+    },
+    {
+        "id": "02370ed220be8611",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM usuarios WHERE id_nfc = ;",
+        "name": "Deletar Usuario",
+        "x": 420,
+        "y": 680,
+        "wires": [
+            [
+                "0861db137c3abfe4"
+            ]
+        ]
+    },
+    {
+        "id": "9b5dcddcd73341f3",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "fixed",
+        "sql": "SELECT * FROM fechaduras;",
+        "name": "Listar Fechaduras",
+        "x": 250,
+        "y": 100,
+        "wires": [
+            [
+                "ac61d3984d454321"
+            ]
+        ]
+    },
+    {
+        "id": "85a27f0d8f6d39ce",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM usuarios WHERE id_nfc = ;",
+        "name": "Obter Fechadura",
+        "x": 590,
+        "y": 140,
+        "wires": [
+            [
+                "95d0833fbceb85b1"
+            ]
+        ]
+    },
+    {
+        "id": "a4f5d818725935c8",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Verificar acesso",
+        "x": 1440,
+        "y": 80,
+        "wires": [
+            [
+                "d11fd4f8d7b39401"
+            ]
+        ]
+    },
+    {
+        "id": "1e9e2a65edcf9002",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM usuarios;",
+        "name": "Listar permissões",
+        "x": 470,
+        "y": 260,
+        "wires": [
+            [
+                "79acfd1b2beca70e"
+            ]
+        ]
+    },
+    {
+        "id": "aac78758ab2bee13",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM usuarios;",
+        "name": "Deletar permissões",
+        "x": 470,
+        "y": 300,
+        "wires": [
+            [
+                "564315e5a465b70d"
+            ]
+        ]
+    },
+    {
+        "id": "e80115e696dfef18",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM usuarios;",
+        "name": "Verificar permissões",
+        "x": 500,
+        "y": 340,
+        "wires": [
+            [
+                "c00696ad1b591d86"
+            ]
+        ]
+    },
+    {
+        "id": "a8f79ba86bd2df5a",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "SELECT * FROM usuarios;",
+        "name": "Adicionar permissões",
+        "x": 500,
+        "y": 380,
+        "wires": [
+            [
+                "a37b81c3e10b997d"
+            ]
+        ]
+    },
+    {
+        "id": "925b91b0e9828bcd",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "fixed",
+        "sql": "INSERT INTO fechaduras (nome, localizacao) VALUES(\"Teste\", \"Casa\")",
+        "name": "Fechadura Teste",
+        "x": 540,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e4781884b83e1b29",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "PRAGMA foreign_keys = ON;\n\nCREATE TABLE IF NOT EXISTS usuarios (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL,\n    id_nfc TEXT NOT NULL UNIQUE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc = upper(id_nfc))\n);\n\nCREATE TABLE IF NOT EXISTS fechaduras (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL UNIQUE,\n    localizacao TEXT,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    UNIQUE (nome, localizacao)\n);\n\nCREATE TABLE IF NOT EXISTS permissoes_fechadura (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER NOT NULL REFERENCES fechaduras(id) ON DELETE CASCADE,\n    id_nfc TEXT NOT NULL REFERENCES usuarios(id_nfc) ON DELETE CASCADE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    UNIQUE (id_fechadura, id_nfc)\n);\n\nCREATE TABLE IF NOT EXISTS eventos_acesso (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER REFERENCES fechaduras(id) ON DELETE SET NULL,\n    id_nfc TEXT REFERENCES usuarios(id_nfc) ON DELETE SET NULL,\n    id_nfc_escaneado TEXT NOT NULL,\n    tipo_evento TEXT NOT NULL,\n    data_ocorrencia TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc_escaneado = upper(id_nfc_escaneado)),\n    CHECK (\n        tipo_evento IN (\n            'autorizado',\n            'negado',\n            'arrombamento'\n        )\n    )\n);\n\nCREATE INDEX IF NOT EXISTS idx_usuario_id_nfc ON usuarios(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_permissoes_fechadura_id_nfc ON permissoes_fechadura(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_fechadura_data ON eventos_acesso(id_fechadura, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_nfc_data ON eventos_acesso(id_nfc, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_escaneado_data ON eventos_acesso(id_nfc_escaneado, data_ocorrencia);\n\nCREATE TRIGGER IF NOT EXISTS usuarios_atualizado_em\nAFTER UPDATE ON usuarios\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE usuarios\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS fechaduras_atualizado_em\nAFTER UPDATE ON fechaduras\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE fechaduras\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS permissoes_fechadura_set_updated_at\nAFTER UPDATE ON permissoes_fechadura\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE permissoes_fechadura\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n",
+        "output": "str",
+        "x": 220,
+        "y": 20,
+        "wires": [
+            [
+                "a7dfd69d424ff296"
+            ]
+        ]
+    },
+    {
+        "id": "a7dfd69d424ff296",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "batch",
+        "sql": "CREATE TABLE IF NOT EXISTS usuarios (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL,\n    id_nfc TEXT NOT NULL UNIQUE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc = upper(id_nfc))\n);\n\nCREATE TABLE IF NOT EXISTS fechaduras (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL UNIQUE,\n    localizacao TEXT,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))\n);\n\nCREATE TABLE IF NOT EXISTS permissoes_fechadura (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER NOT NULL REFERENCES fechaduras(id) ON DELETE CASCADE,\n    id_nfc TEXT NOT NULL REFERENCES usuarios(id_nfc) ON DELETE CASCADE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    UNIQUE (id_fechadura, id_nfc)\n);\n\nCREATE TABLE IF NOT EXISTS eventos_acesso (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER REFERENCES fechaduras(id) ON DELETE SET NULL,\n    id_nfc TEXT REFERENCES usuarios(id_nfc) ON DELETE SET NULL,\n    id_nfc_escaneado TEXT NOT NULL,\n    tipo_evento TEXT NOT NULL,\n    data_ocorrencia TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc_escaneado = upper(id_nfc_escaneado)),\n    CHECK (\n        tipo_evento IN (\n            'autorizado',\n            'negado',\n            'arrombamento'\n        )\n    )\n);\n\nCREATE INDEX IF NOT EXISTS idx_usuario_id_nfc ON usuarios(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_permissoes_fechadura_id_nfc ON permissoes_fechadura(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_fechadura_data ON eventos_acesso(id_fechadura, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_nfc_data ON eventos_acesso(id_nfc, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_escaneado_data ON eventos_acesso(id_nfc_escaneado, data_ocorrencia);\n\nCREATE TRIGGER IF NOT EXISTS usuarios_atualizado_em\nAFTER UPDATE ON usuarios\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE usuarios\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS fechaduras_atualizado_em\nAFTER UPDATE ON fechaduras\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE fechaduras\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS permissoes_fechadura_set_updated_at\nAFTER UPDATE ON permissoes_fechadura\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE permissoes_fechadura\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n",
+        "name": "Migration",
+        "x": 360,
+        "y": 20,
+        "wires": [
+            [
+                "925b91b0e9828bcd"
+            ]
+        ]
+    },
+    {
+        "id": "89fdbc42e759e17e",
+        "type": "catch",
+        "z": "e1ab2250d76780ce",
+        "name": "sqlite",
+        "scope": "group",
+        "uncaught": false,
+        "x": 70,
+        "y": 760,
+        "wires": [
+            [
+                "ef1c1216cc0171b4"
+            ]
+        ]
+    },
+    {
+        "id": "ef1c1216cc0171b4",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "404",
+        "headers": {},
+        "x": 200,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "a37b81c3e10b997d",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 680,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "ca7b3f1969eb9e64",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 300,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "9d7cfa1ac621dc75",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/permissions/:id",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "06287093c23b563c",
+        "type": "mqtt in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "topic": "fechadura/provisionar/iniciar",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "ca4af054d26f0d38",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 1020,
+        "y": 240,
+        "wires": [
+            [
+                "a2800b31abe97a76"
+            ]
+        ]
+    },
+    {
+        "id": "169cbf6de8057a9a",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "INSERT INTO fechaduras (nome, localizacao) VALUES(\"{{fechadura.nome}}\", \"{{fechadura.localizacao}}\")",
+        "output": "str",
+        "x": 1240,
+        "y": 300,
+        "wires": [
+            [
+                "9b773001d0bb62b1"
+            ]
+        ]
+    },
+    {
+        "id": "9b773001d0bb62b1",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Criar Fechadura",
+        "x": 1400,
+        "y": 300,
+        "wires": [
+            [
+                "c24e8a37c63f4bf3"
+            ]
+        ]
+    },
+    {
+        "id": "3d74c5479076601a",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "last_insert_rowid();",
+        "name": "ID Fechadura",
+        "x": 1400,
+        "y": 360,
+        "wires": [
+            [
+                "04677278d7337aac"
+            ]
+        ]
+    },
+    {
+        "id": "847ed7a6255254cc",
+        "type": "mqtt out",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "topic": "fechadura/provisionar/resposta",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ca4af054d26f0d38",
+        "x": 1450,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "c24e8a37c63f4bf3",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "SELECT id FROM fechaduras WHERE nome = \"{{fechadura.nome}}\" AND localizacao = \"{{fechadura.localizacao}}\";",
+        "output": "str",
+        "x": 1240,
+        "y": 360,
+        "wires": [
+            [
+                "3d74c5479076601a"
+            ]
+        ]
+    },
+    {
+        "id": "a2800b31abe97a76",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "fechadura",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1270,
+        "y": 240,
+        "wires": [
+            [
+                "169cbf6de8057a9a"
+            ]
+        ]
+    },
+    {
+        "id": "04677278d7337aac",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\"id\": {{{payload[0].id}}}, \"nome\": {{fechadura.nome}}, localizacao: {{fechadura.localizacao}}}",
+        "output": "json",
+        "x": 1240,
+        "y": 420,
+        "wires": [
+            [
+                "847ed7a6255254cc"
+            ]
+        ]
+    },
+    {
+        "id": "5bd2b00fea4e7747",
+        "type": "switch",
+        "z": "e1ab2250d76780ce",
+        "name": "Porta Aberta",
+        "property": "payload.open",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1290,
+        "y": 180,
+        "wires": [
+            [
+                "1eb6e3ea0be458c3"
+            ]
+        ]
+    },
+    {
+        "id": "1eb6e3ea0be458c3",
+        "type": "switch",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "property": "ultimo_uid",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "nnull"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1450,
+        "y": 180,
+        "wires": [
+            [
+                "1f417df248c3e06e"
+            ],
+            [
+                "6f97e3487446c3e0"
+            ]
+        ]
+    },
+    {
+        "id": "1f417df248c3e06e",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "INSERT INTO eventos_acesso (id_fechadura, id_nfc_escaneado, tipo_evento)\nVALUES ('{{lockId}}', '{{flow.ultimo_uid}}', 'autorizado');",
+        "output": "str",
+        "x": 1660,
+        "y": 160,
+        "wires": [
+            [
+                "19b4504fed47e6f4"
+            ]
+        ]
+    },
+    {
+        "id": "6f97e3487446c3e0",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "INSERT INTO eventos_acesso (id_fechadura, id_nfc_escaneado, tipo_evento)\nVALUES ('{{lockId}}', 'DESCONHECIDO', 'arrombamento');",
+        "output": "str",
+        "x": 1660,
+        "y": 200,
+        "wires": [
+            [
+                "19b4504fed47e6f4"
+            ]
+        ]
+    },
+    {
+        "id": "19b4504fed47e6f4",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 1820,
+        "y": 180,
+        "wires": [
+            [
+                "89df05fd0640c8bc"
+            ]
+        ]
+    },
+    {
+        "id": "00b30b46d71d411f",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "Salva estado do ultimo uid",
+        "rules": [
+            {
+                "t": "set",
+                "p": "ultimo_uid",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1800,
+        "y": 20,
+        "wires": [
+            [
+                "a3d3d69b8695d4bc"
+            ]
+        ]
+    },
+    {
+        "id": "89df05fd0640c8bc",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "ultimo_uid",
+                "pt": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2040,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "06d0982ec6a172ce",
+        "type": "function",
+        "z": "e1ab2250d76780ce",
+        "name": "function 2",
+        "func": "const parts = msg.topic.split(\"/\");\n\nmsg.lockId = parts[1];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 180,
+        "wires": [
+            [
+                "5bd2b00fea4e7747"
+            ]
+        ]
+    },
+    {
+        "id": "a3d3d69b8695d4bc",
+        "type": "trigger",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "5",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 2000,
+        "y": 20,
+        "wires": [
+            [
+                "c91ad827427216c6"
+            ]
+        ]
+    },
+    {
+        "id": "c91ad827427216c6",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "ultimo_uid",
+                "pt": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2220,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca4af054d26f0d38",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "172.17.0.1",
+        "port": "7212",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "4c479c89f0b88812",
+        "type": "sqlitedb",
+        "db": ":memory:",
+        "mode": "RWC"
+    },
+    {
+        "id": "7f79cd8a47c72e41",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-node-sqlite": "2.0.1"
+        }
+    }
+]

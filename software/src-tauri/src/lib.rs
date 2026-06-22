@@ -9,6 +9,7 @@ struct TagData {
     kind: String,
 }
 
+// Comando chamado pelo front-end para fazer requisições HTTP ao Node-RED
 #[tauri::command]
 async fn node_red_request(
     method: String,
@@ -49,6 +50,7 @@ async fn node_red_request(
     Ok(value)
 }
 
+// Converte o texto da resposta em JSON (ou devolve o texto puro se não for JSON)
 fn parse_node_red_response(text: &str) -> Value {
     if text.is_empty() {
         Value::Null
@@ -57,6 +59,7 @@ fn parse_node_red_response(text: &str) -> Value {
     }
 }
 
+// Comando que lê uma tag/cartão NFC no celular e devolve o ID e o tipo
 #[tauri::command]
 async fn scan_rfid(app: tauri::AppHandle) -> Result<TagData, String> {
     #[cfg(mobile)]
@@ -94,6 +97,7 @@ async fn scan_rfid(app: tauri::AppHandle) -> Result<TagData, String> {
     }
 }
 
+// Formata os bytes do ID da tag como texto hexadecimal separado por ":"
 #[cfg(mobile)]
 fn format_tag_id(id: &[u8]) -> String {
     id.iter()
@@ -102,6 +106,7 @@ fn format_tag_id(id: &[u8]) -> String {
         .join(":")
 }
 
+// Configura os plugins e inicia o aplicativo Tauri
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
