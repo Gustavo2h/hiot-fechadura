@@ -121,7 +121,7 @@
         "y": 220,
         "wires": [
             [
-                "ca7b3f1969eb9e64"
+                "157012c0de000001"
             ]
         ]
     },
@@ -733,7 +733,7 @@
         "type": "function",
         "z": "e1ab2250d76780ce",
         "name": "function 1",
-        "func": "const parts = msg.topic.split(\"/\");\n\nif (parts.length < 3) {\n  node.error(\"Invalid topic: \" + msg.topic, msg);\n  return null;\n}\n\nmsg.lockId = parts[1];\nreturn msg;",
+        "func": "const parts = msg.topic.split(\"/\");\n\nif (parts.length < 3) {\n  node.error(\"Invalid topic: \" + msg.topic, msg);\n  return null;\n}\n\nmsg.lockId = parts[1];\nmsg.uid = msg.payload;   // guarda o UID antes do SELECT sobrescrever o payload\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1101,7 +1101,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "PRAGMA foreign_keys = ON;\n\nCREATE TABLE IF NOT EXISTS usuarios (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL,\n    id_nfc TEXT NOT NULL UNIQUE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc = upper(id_nfc))\n);\n\nCREATE TABLE IF NOT EXISTS fechaduras (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL UNIQUE,\n    localizacao TEXT,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    UNIQUE (nome, localizacao)\n);\n\nCREATE TABLE IF NOT EXISTS permissoes_fechadura (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER NOT NULL REFERENCES fechaduras(id) ON DELETE CASCADE,\n    id_nfc TEXT NOT NULL REFERENCES usuarios(id_nfc) ON DELETE CASCADE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    UNIQUE (id_fechadura, id_nfc)\n);\n\nCREATE TABLE IF NOT EXISTS eventos_acesso (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER REFERENCES fechaduras(id) ON DELETE SET NULL,\n    id_nfc TEXT REFERENCES usuarios(id_nfc) ON DELETE SET NULL,\n    id_nfc_escaneado TEXT NOT NULL,\n    tipo_evento TEXT NOT NULL,\n    data_ocorrencia TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc_escaneado = upper(id_nfc_escaneado)),\n    CHECK (\n        tipo_evento IN (\n            'autorizado',\n            'negado',\n            'arrombamento'\n        )\n    )\n);\n\nCREATE INDEX IF NOT EXISTS idx_usuario_id_nfc ON usuarios(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_permissoes_fechadura_id_nfc ON permissoes_fechadura(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_fechadura_data ON eventos_acesso(id_fechadura, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_nfc_data ON eventos_acesso(id_nfc, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_escaneado_data ON eventos_acesso(id_nfc_escaneado, data_ocorrencia);\n\nCREATE TRIGGER IF NOT EXISTS usuarios_atualizado_em\nAFTER UPDATE ON usuarios\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE usuarios\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS fechaduras_atualizado_em\nAFTER UPDATE ON fechaduras\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE fechaduras\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS permissoes_fechadura_set_updated_at\nAFTER UPDATE ON permissoes_fechadura\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE permissoes_fechadura\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n",
+        "template": "PRAGMA foreign_keys = ON;\n\nCREATE TABLE IF NOT EXISTS usuarios (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL,\n    id_nfc TEXT NOT NULL UNIQUE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc = upper(id_nfc))\n);\n\nCREATE TABLE IF NOT EXISTS fechaduras (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL UNIQUE,\n    localizacao TEXT,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    UNIQUE (nome, localizacao)\n);\n\nCREATE TABLE IF NOT EXISTS permissoes_fechadura (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER NOT NULL REFERENCES fechaduras(id) ON DELETE CASCADE,\n    id_nfc TEXT NOT NULL REFERENCES usuarios(id_nfc) ON DELETE CASCADE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    UNIQUE (id_fechadura, id_nfc)\n);\n\nCREATE TABLE IF NOT EXISTS eventos_acesso (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER REFERENCES fechaduras(id) ON DELETE SET NULL,\n    id_nfc TEXT REFERENCES usuarios(id_nfc) ON DELETE SET NULL,\n    id_nfc_escaneado TEXT NOT NULL,\n    tipo_evento TEXT NOT NULL,\n    data_ocorrencia TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc_escaneado = upper(id_nfc_escaneado)),\n    CHECK (\n        tipo_evento IN (\n            'autorizado',\n            'negado',\n            'arrombamento',\n            'fechamento'\n        )\n    )\n);\n\nCREATE INDEX IF NOT EXISTS idx_usuario_id_nfc ON usuarios(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_permissoes_fechadura_id_nfc ON permissoes_fechadura(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_fechadura_data ON eventos_acesso(id_fechadura, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_nfc_data ON eventos_acesso(id_nfc, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_escaneado_data ON eventos_acesso(id_nfc_escaneado, data_ocorrencia);\n\nCREATE TRIGGER IF NOT EXISTS usuarios_atualizado_em\nAFTER UPDATE ON usuarios\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE usuarios\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS fechaduras_atualizado_em\nAFTER UPDATE ON fechaduras\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE fechaduras\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS permissoes_fechadura_set_updated_at\nAFTER UPDATE ON permissoes_fechadura\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE permissoes_fechadura\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n",
         "output": "str",
         "x": 220,
         "y": 20,
@@ -1117,7 +1117,7 @@
         "z": "e1ab2250d76780ce",
         "mydb": "4c479c89f0b88812",
         "sqlquery": "batch",
-        "sql": "CREATE TABLE IF NOT EXISTS usuarios (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL,\n    id_nfc TEXT NOT NULL UNIQUE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc = upper(id_nfc))\n);\n\nCREATE TABLE IF NOT EXISTS fechaduras (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL UNIQUE,\n    localizacao TEXT,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))\n);\n\nCREATE TABLE IF NOT EXISTS permissoes_fechadura (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER NOT NULL REFERENCES fechaduras(id) ON DELETE CASCADE,\n    id_nfc TEXT NOT NULL REFERENCES usuarios(id_nfc) ON DELETE CASCADE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    UNIQUE (id_fechadura, id_nfc)\n);\n\nCREATE TABLE IF NOT EXISTS eventos_acesso (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER REFERENCES fechaduras(id) ON DELETE SET NULL,\n    id_nfc TEXT REFERENCES usuarios(id_nfc) ON DELETE SET NULL,\n    id_nfc_escaneado TEXT NOT NULL,\n    tipo_evento TEXT NOT NULL,\n    data_ocorrencia TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc_escaneado = upper(id_nfc_escaneado)),\n    CHECK (\n        tipo_evento IN (\n            'autorizado',\n            'negado',\n            'arrombamento'\n        )\n    )\n);\n\nCREATE INDEX IF NOT EXISTS idx_usuario_id_nfc ON usuarios(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_permissoes_fechadura_id_nfc ON permissoes_fechadura(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_fechadura_data ON eventos_acesso(id_fechadura, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_nfc_data ON eventos_acesso(id_nfc, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_escaneado_data ON eventos_acesso(id_nfc_escaneado, data_ocorrencia);\n\nCREATE TRIGGER IF NOT EXISTS usuarios_atualizado_em\nAFTER UPDATE ON usuarios\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE usuarios\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS fechaduras_atualizado_em\nAFTER UPDATE ON fechaduras\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE fechaduras\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS permissoes_fechadura_set_updated_at\nAFTER UPDATE ON permissoes_fechadura\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE permissoes_fechadura\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n",
+        "sql": "CREATE TABLE IF NOT EXISTS usuarios (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL,\n    id_nfc TEXT NOT NULL UNIQUE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc = upper(id_nfc))\n);\n\nCREATE TABLE IF NOT EXISTS fechaduras (\n    id INTEGER PRIMARY KEY,\n    nome TEXT NOT NULL UNIQUE,\n    localizacao TEXT,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))\n);\n\nCREATE TABLE IF NOT EXISTS permissoes_fechadura (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER NOT NULL REFERENCES fechaduras(id) ON DELETE CASCADE,\n    id_nfc TEXT NOT NULL REFERENCES usuarios(id_nfc) ON DELETE CASCADE,\n    criado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    atualizado_em TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    UNIQUE (id_fechadura, id_nfc)\n);\n\nCREATE TABLE IF NOT EXISTS eventos_acesso (\n    id INTEGER PRIMARY KEY,\n    id_fechadura INTEGER REFERENCES fechaduras(id) ON DELETE SET NULL,\n    id_nfc TEXT REFERENCES usuarios(id_nfc) ON DELETE SET NULL,\n    id_nfc_escaneado TEXT NOT NULL,\n    tipo_evento TEXT NOT NULL,\n    data_ocorrencia TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),\n    CHECK (id_nfc_escaneado = upper(id_nfc_escaneado)),\n    CHECK (\n        tipo_evento IN (\n            'autorizado',\n            'negado',\n            'arrombamento',\n            'fechamento'\n        )\n    )\n);\n\nCREATE INDEX IF NOT EXISTS idx_usuario_id_nfc ON usuarios(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_permissoes_fechadura_id_nfc ON permissoes_fechadura(id_nfc);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_fechadura_data ON eventos_acesso(id_fechadura, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_nfc_data ON eventos_acesso(id_nfc, data_ocorrencia);\nCREATE INDEX IF NOT EXISTS idx_eventos_acesso_escaneado_data ON eventos_acesso(id_nfc_escaneado, data_ocorrencia);\n\nCREATE TRIGGER IF NOT EXISTS usuarios_atualizado_em\nAFTER UPDATE ON usuarios\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE usuarios\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS fechaduras_atualizado_em\nAFTER UPDATE ON fechaduras\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE fechaduras\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n\nCREATE TRIGGER IF NOT EXISTS permissoes_fechadura_set_updated_at\nAFTER UPDATE ON permissoes_fechadura\nFOR EACH ROW\nWHEN NEW.atualizado_em = OLD.atualizado_em\nBEGIN\n    UPDATE permissoes_fechadura\n    SET atualizado_em = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')\n    WHERE id = NEW.id;\nEND;\n",
         "name": "Migration",
         "x": 360,
         "y": 20,
@@ -1171,7 +1171,7 @@
         "name": "",
         "statusCode": "200",
         "headers": {},
-        "x": 300,
+        "x": 760,
         "y": 220,
         "wires": []
     },
@@ -1407,7 +1407,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "INSERT INTO eventos_acesso (id_fechadura, id_nfc_escaneado, tipo_evento)\nVALUES ('{{lockId}}', '{{flow.ultimo_uid}}', 'autorizado');",
+        "template": "INSERT INTO eventos_acesso (id_fechadura, id_nfc_escaneado, tipo_evento)\nVALUES ('{{lockId}}', upper('{{flow.ultimo_uid}}'), 'autorizado');",
         "output": "str",
         "x": 1660,
         "y": 160,
@@ -1462,7 +1462,7 @@
                 "t": "set",
                 "p": "ultimo_uid",
                 "pt": "flow",
-                "to": "payload",
+                "to": "uid",
                 "tot": "msg"
             }
         ],
@@ -1614,5 +1614,328 @@
         "modules": {
             "node-red-node-sqlite": "2.0.1"
         }
+    },
+    {
+        "id": "0a17e0d0c0de0001",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/locks/:id/open",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 840,
+        "wires": [
+            [
+                "0a17e0d0c0de0002",
+                "0a17e0d0c0de0004"
+            ]
+        ]
+    },
+    {
+        "id": "0a17e0d0c0de0002",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "cmd open",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"fechadura/\" & req.params.id & \"/cmd\"",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "open",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 820,
+        "wires": [
+            [
+                "0a17e0d0c0de0003"
+            ]
+        ]
+    },
+    {
+        "id": "0a17e0d0c0de0003",
+        "type": "mqtt out",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ca4af054d26f0d38",
+        "x": 560,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "0a17e0d0c0de0004",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "log autorizado (app)",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "INSERT INTO eventos_acesso (id_fechadura, id_nfc_escaneado, tipo_evento)\nVALUES ({{req.params.id}}, 'APP', 'autorizado');",
+        "output": "str",
+        "x": 340,
+        "y": 860,
+        "wires": [
+            [
+                "0a17e0d0c0de0005"
+            ]
+        ]
+    },
+    {
+        "id": "0a17e0d0c0de0005",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Registrar acesso (app)",
+        "x": 560,
+        "y": 860,
+        "wires": [
+            [
+                "0a17e0d0c0de0006"
+            ]
+        ]
+    },
+    {
+        "id": "0a17e0d0c0de0006",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"ok\":true}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 860,
+        "wires": [
+            [
+                "0a17e0d0c0de0007"
+            ]
+        ]
+    },
+    {
+        "id": "0a17e0d0c0de0007",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 920,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "0c105e0d0c0de001",
+        "type": "http in",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "url": "/locks/:id/close",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 940,
+        "wires": [
+            [
+                "0c105e0d0c0de002",
+                "0c105e0d0c0de004"
+            ]
+        ]
+    },
+    {
+        "id": "0c105e0d0c0de002",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "cmd close",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"fechadura/\" & req.params.id & \"/cmd\"",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "close",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 920,
+        "wires": [
+            [
+                "0c105e0d0c0de003"
+            ]
+        ]
+    },
+    {
+        "id": "0c105e0d0c0de003",
+        "type": "mqtt out",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "ca4af054d26f0d38",
+        "x": 560,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "0c105e0d0c0de004",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "log fechamento",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "INSERT INTO eventos_acesso (id_fechadura, id_nfc_escaneado, tipo_evento)\nVALUES ({{req.params.id}}, 'APP', 'fechamento');",
+        "output": "str",
+        "x": 340,
+        "y": 960,
+        "wires": [
+            [
+                "0c105e0d0c0de005"
+            ]
+        ]
+    },
+    {
+        "id": "0c105e0d0c0de005",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Registrar fechamento",
+        "x": 560,
+        "y": 960,
+        "wires": [
+            [
+                "0c105e0d0c0de006"
+            ]
+        ]
+    },
+    {
+        "id": "0c105e0d0c0de006",
+        "type": "change",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"ok\":true}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 960,
+        "wires": [
+            [
+                "0c105e0d0c0de007"
+            ]
+        ]
+    },
+    {
+        "id": "0c105e0d0c0de007",
+        "type": "http response",
+        "z": "e1ab2250d76780ce",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 920,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "157012c0de000001",
+        "type": "template",
+        "z": "e1ab2250d76780ce",
+        "name": "query historico",
+        "field": "topic",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "SELECT e.id, e.id_fechadura, f.nome AS fechadura, e.id_nfc_escaneado,\n       u.nome AS usuario, e.tipo_evento, e.data_ocorrencia\nFROM eventos_acesso e\nLEFT JOIN fechaduras f ON f.id = e.id_fechadura\nLEFT JOIN usuarios  u ON u.id_nfc = e.id_nfc_escaneado\nWHERE e.id_fechadura = {{req.params.id}}\nORDER BY e.data_ocorrencia DESC\nLIMIT 100;",
+        "output": "str",
+        "x": 340,
+        "y": 220,
+        "wires": [
+            [
+                "157012c0de000002"
+            ]
+        ]
+    },
+    {
+        "id": "157012c0de000002",
+        "type": "sqlite",
+        "z": "e1ab2250d76780ce",
+        "mydb": "4c479c89f0b88812",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Historico fechadura",
+        "x": 560,
+        "y": 220,
+        "wires": [
+            [
+                "ca7b3f1969eb9e64"
+            ]
+        ]
     }
 ]
